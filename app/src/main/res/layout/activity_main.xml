@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sony.newsapi.MainActivity">
+    tools:context="com.example.sony.newsapi.screen.newslist.NewsListActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_main_recyclerview"

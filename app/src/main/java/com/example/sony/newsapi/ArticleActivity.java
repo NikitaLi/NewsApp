@@ -15,7 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class NewsDetailsActivity extends AppCompatActivity {
+public class ArticleActivity extends AppCompatActivity {
     private static final String KEY_INDEX = "news_index";
 
     private WebView webView;
@@ -56,7 +56,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(NewsDetailsActivity.this, "Error loading article", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ArticleActivity.this, "Error loading article", Toast.LENGTH_SHORT).show();
             }
         });
         webView.loadUrl(NewsStore.getNewsArticles().get(index).getUrl());
@@ -64,7 +64,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
     }
 
     public static void launch(Context context, int index) {
-        Intent intent = new Intent(context, NewsDetailsActivity.class);
+        Intent intent = new Intent(context, ArticleActivity.class);
         intent.putExtra(KEY_INDEX, index);
         context.startActivity(intent);
     }

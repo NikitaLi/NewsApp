@@ -1,5 +1,6 @@
 package com.example.sony.newsapi;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<Article> newsArticles;
 
-    NewsAdapter(List<Article> newsArticles) {
+    public NewsAdapter(List<Article> newsArticles) {
         this.newsArticles = newsArticles;
     }
 
@@ -27,18 +28,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, final int position) {
+    public void onBindViewHolder(NewsViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         Article newsArticle = newsArticles.get(position);
-        Glide.with(holder.cardImageView.getContext()).load(newsArticle.getUrlToImage())
-                .into(holder.cardImageView);
-        holder.cardTitleTextView.setText(newsArticle.getTitle());
-        holder.cardTimeTextView.setText(DateUtils.formatNewsPublishedDate(newsArticle.getPublishedAt()));
-        holder.cardContentTextView.setText(newsArticle.getDescription());
+        Glide.with(holder.ivImage.getContext()).load(newsArticle.getUrlToImage())
+                .into(holder.ivImage);
+        holder.tvTitle.setText(newsArticle.getTitle());
+        holder.tvTime.setText(DateUtils.formatNewsPublishedDate(newsArticle.getPublishedAt()));
+        holder.tvContent.setText(newsArticle.getDescription());
         holder.itemView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        NewsDetailsActivity.launch(view.getContext(), position);
+                        ArticleActivity.launch(view.getContext(), position);
                     }
                 }
         );
@@ -50,17 +51,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     static class NewsViewHolder extends RecyclerView.ViewHolder {
-        ImageView cardImageView;
-        TextView cardTitleTextView;
-        TextView cardTimeTextView;
-        TextView cardContentTextView;
+        ImageView ivImage;
+        TextView tvTitle;
+        TextView tvTime;
+        TextView tvContent;
 
         NewsViewHolder(View itemView) {
             super(itemView);
-            cardImageView = itemView.findViewById(R.id.card_news_image);
-            cardTitleTextView = itemView.findViewById(R.id.card_news_title);
-            cardTimeTextView = itemView.findViewById(R.id.card_news_time);
-            cardContentTextView = itemView.findViewById(R.id.card_news_content);
+            ivImage = itemView.findViewById(R.id.card_news_image);
+            tvTitle = itemView.findViewById(R.id.card_news_title);
+            tvTime = itemView.findViewById(R.id.card_news_time);
+            tvContent = itemView.findViewById(R.id.card_news_content);
         }
     }
 }
