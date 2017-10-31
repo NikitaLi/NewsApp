@@ -17,14 +17,9 @@ public class NewsAPI {
     private static NewsService newsService = null;
 
     private static OkHttpClient getClient() {
-        OkHttpClient client = new OkHttpClient();
-        OkHttpClient.Builder builder = client.newBuilder();
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.addNetworkInterceptor(httpLoggingInterceptor);
-        builder.build();
-        return client;
+        return new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
     }
 
     public static NewsService getApi() {

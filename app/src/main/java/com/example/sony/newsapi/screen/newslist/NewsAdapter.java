@@ -1,4 +1,4 @@
-package com.example.sony.newsapi;
+package com.example.sony.newsapi.screen.newslist;
 
 import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.sony.newsapi.R;
 import com.example.sony.newsapi.model.Article;
+import com.example.sony.newsapi.screen.article.ArticleActivity;
 import com.example.sony.newsapi.utils.DateUtils;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<Article> newsArticles;
 
-    public NewsAdapter(List<Article> newsArticles) {
+    NewsAdapter(List<Article> newsArticles) {
         this.newsArticles = newsArticles;
     }
 

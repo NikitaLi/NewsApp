@@ -8,7 +8,7 @@ import java.util.List;
 public class NewsStore {
     private static List<Article> newsArticles = new ArrayList<>();
 
-    static List<Article> getNewsArticles() {
+    public static List<Article> getNewsArticles() {
         return newsArticles;
     }
 

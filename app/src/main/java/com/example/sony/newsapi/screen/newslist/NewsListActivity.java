@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.sony.newsapi.Config;
-import com.example.sony.newsapi.NewsAdapter;
 import com.example.sony.newsapi.R;
 import com.example.sony.newsapi.model.GetArticlesResponse;
 
