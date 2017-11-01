@@ -1,6 +1,5 @@
 package com.example.sony.newsapi.screen.newslist;
 
-import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final NewsViewHolder holder, int position) {
         Article newsArticle = newsArticles.get(position);
         Glide.with(holder.ivImage.getContext()).load(newsArticle.getUrlToImage())
                 .into(holder.ivImage);
@@ -41,7 +40,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ArticleActivity.launch(view.getContext(), position);
+                        ArticleActivity.launch(view.getContext(), holder.getAdapterPosition());
                     }
                 }
         );
@@ -60,10 +59,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         NewsViewHolder(View itemView) {
             super(itemView);
-            ivImage = itemView.findViewById(R.id.card_news_image);
-            tvTitle = itemView.findViewById(R.id.card_news_title);
-            tvTime = itemView.findViewById(R.id.card_news_time);
-            tvContent = itemView.findViewById(R.id.card_news_content);
+            ivImage = itemView.findViewById(R.id.iv_card_news_image);
+            tvTitle = itemView.findViewById(R.id.tv_card_news_title);
+            tvTime = itemView.findViewById(R.id.tv_card_news_time);
+            tvContent = itemView.findViewById(R.id.tv_card_news_content);
         }
     }
 }

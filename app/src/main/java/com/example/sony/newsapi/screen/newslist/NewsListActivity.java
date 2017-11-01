@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 import com.example.sony.newsapi.Config;
 import com.example.sony.newsapi.R;
-import com.example.sony.newsapi.model.GetArticlesResponse;
+import com.example.sony.newsapi.model.Article;
+
+import java.util.List;
 
 public class NewsListActivity extends AppCompatActivity implements NewsListView {
 
@@ -19,7 +21,7 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rvNews = findViewById(R.id.activity_main_recyclerview);
+        rvNews = findViewById(R.id.rv_news);
         rvNews.setLayoutManager(new LinearLayoutManager(this));
 
         showTitle();
@@ -34,8 +36,8 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView 
     }
 
     @Override
-    public void showNewsList(GetArticlesResponse articlesResponse) {
-        NewsAdapter newsAdapter = new NewsAdapter(articlesResponse.getArticles());
+    public void showNewsList(List<Article> newsList) {
+        NewsAdapter newsAdapter = new NewsAdapter(newsList);
         rvNews.setAdapter(newsAdapter);
     }
 

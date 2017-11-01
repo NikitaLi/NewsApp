@@ -4,8 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.example.sony.newsapi.Config;
 import com.example.sony.newsapi.NewsStore;
+import com.example.sony.newsapi.model.Article;
 import com.example.sony.newsapi.model.GetArticlesResponse;
 import com.example.sony.newsapi.networking.NewsAPI;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,8 +31,10 @@ class NewsListPresenter {
             @Override
             public void onResponse(@NonNull Call<GetArticlesResponse> call, @NonNull Response<GetArticlesResponse> response) {
                 GetArticlesResponse articlesResponse = response.body();
-                NewsStore.setNewsArticles(articlesResponse.getArticles());
-                listView.showNewsList(articlesResponse);
+                assert articlesResponse != null;
+                List<Article> newsList = articlesResponse.getArticles();
+                NewsStore.setNewsArticles(newsList);
+                listView.showNewsList(newsList);
             }
 
             @Override
