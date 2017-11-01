@@ -4,9 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebResourceError;
@@ -19,10 +18,12 @@ import android.widget.Toast;
 import com.example.sony.newsapi.NewsStore;
 import com.example.sony.newsapi.R;
 
-public class ArticleActivity extends AppCompatActivity implements ArticleView {
+public class ArticleActivity extends AppCompatActivity implements ArticleContract.View {
     private static final String KEY_INDEX = "news_index";
 
-    final ArticlePresenter presenter = new ArticlePresenter(this);
+    final ArticleContract.Presenter presenter = new ArticlePresenter(this);
+
+    WebView webView;
     private ProgressBar progressBar;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -31,17 +32,17 @@ public class ArticleActivity extends AppCompatActivity implements ArticleView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        WebView webView = findViewById(R.id.wb_article);
+        webView = findViewById(R.id.wb_article);
         progressBar = findViewById(R.id.pb_article);
 
         int index = getIntent().getIntExtra(KEY_INDEX, -1);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(getWebViewClient());
-        webView.loadUrl(presenter.getArticleUrl(index));
+        presenter.loadUrl(index);
     }
 
     private WebViewClient getWebViewClient() {
@@ -81,7 +82,14 @@ public class ArticleActivity extends AppCompatActivity implements ArticleView {
 
     @Override
     public void setTitleOfActionBar(int index) {
-        getSupportActionBar().setTitle(NewsStore.getNewsArticles().get(index).getTitle());
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(NewsStore.getNewsArticles().get(index).getTitle());
+        }
+    }
+
+    @Override
+    public void openPage(String url) {
+        webView.loadUrl(url);
     }
 
     @Override
