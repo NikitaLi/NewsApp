@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.example.sony.newsapi.R;
 public class ArticleActivity extends AppCompatActivity implements ArticleView {
     private static final String KEY_INDEX = "news_index";
 
+    final ArticlePresenter presenter = new ArticlePresenter(this);
     private ProgressBar progressBar;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -29,18 +31,21 @@ public class ArticleActivity extends AppCompatActivity implements ArticleView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        if(getSupportActionBar() != null){
+        if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         WebView webView = findViewById(R.id.wb_article);
         progressBar = findViewById(R.id.pb_article);
 
-        final ArticlePresenter presenter = new ArticlePresenter(this);
         int index = getIntent().getIntExtra(KEY_INDEX, -1);
-
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(getWebViewClient());
+        webView.loadUrl(presenter.getArticleUrl(index));
+    }
+
+    private WebViewClient getWebViewClient() {
+        return new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 presenter.onPageStarted();
@@ -55,8 +60,7 @@ public class ArticleActivity extends AppCompatActivity implements ArticleView {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 presenter.onReceivedError();
             }
-        });
-        webView.loadUrl(presenter.getArticleUrl(index));
+        };
     }
 
     public static void launch(Context context, int index) {

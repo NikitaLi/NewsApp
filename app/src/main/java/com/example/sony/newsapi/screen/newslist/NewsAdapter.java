@@ -31,11 +31,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(final NewsViewHolder holder, int position) {
         Article newsArticle = newsArticles.get(position);
-        Glide.with(holder.ivImage.getContext()).load(newsArticle.getUrlToImage())
-                .into(holder.ivImage);
-        holder.tvTitle.setText(newsArticle.getTitle());
-        holder.tvTime.setText(DateUtils.formatNewsPublishedDate(newsArticle.getPublishedAt()));
-        holder.tvContent.setText(newsArticle.getDescription());
+        Glide.with(holder.ivCardImage.getContext()).load(newsArticle.getUrlToImage())
+                .into(holder.ivCardImage);
+        holder.tvCardTitle.setText(newsArticle.getTitle());
+        holder.tvCardTime.setText(DateUtils.formatNewsPublishedDate(newsArticle.getPublishedAt()));
+        holder.tvCardContent.setText(newsArticle.getDescription());
         holder.itemView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -52,17 +52,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     static class NewsViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivImage;
-        TextView tvTitle;
-        TextView tvTime;
-        TextView tvContent;
+        ImageView ivCardImage;
+        TextView tvCardTitle;
+        TextView tvCardTime;
+        TextView tvCardContent;
 
         NewsViewHolder(View itemView) {
             super(itemView);
-            ivImage = itemView.findViewById(R.id.iv_card_news_image);
-            tvTitle = itemView.findViewById(R.id.tv_card_news_title);
-            tvTime = itemView.findViewById(R.id.tv_card_news_time);
-            tvContent = itemView.findViewById(R.id.tv_card_news_content);
+            ivCardImage = itemView.findViewById(R.id.iv_card_news_image);
+            tvCardTitle = itemView.findViewById(R.id.tv_card_news_title);
+            tvCardTime = itemView.findViewById(R.id.tv_card_news_time);
+            tvCardContent = itemView.findViewById(R.id.tv_card_news_content);
         }
     }
 }
