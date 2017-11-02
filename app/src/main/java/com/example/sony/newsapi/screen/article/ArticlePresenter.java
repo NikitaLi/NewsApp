@@ -1,38 +1,40 @@
 package com.example.sony.newsapi.screen.article;
 
 import com.example.sony.newsapi.NewsStore;
+import com.example.sony.newsapi.model.Article;
 
 class ArticlePresenter implements ArticleContract.Presenter {
 
-    private final ArticleContract.View articleView;
+    private final ArticleContract.View view;
 
     ArticlePresenter(ArticleContract.View articleView) {
-        this.articleView = articleView;
+        this.view = articleView;
     }
 
     @Override
     public void loadUrl(int index) {
         if (index != -1) {
-            articleView.setTitleOfActionBar(index);
-            articleView.openPage(NewsStore.getNewsArticles().get(index).getUrl());
+            Article article = NewsStore.getNewsArticles().get(index);
+            view.showTitleOfActionBar(article.getTitle());
+            view.openPage(article.getUrl());
             return;
         }
-        articleView.showToast("Incorrect index");
+        view.showToast("Incorrect index");
     }
 
     @Override
     public void onPageStarted() {
-        articleView.showProgressBar();
+        view.showProgressBar();
     }
 
     @Override
     public void onPageFinished() {
-        articleView.hideProgressBar();
+        view.hideProgressBar();
     }
 
     @Override
     public void onReceivedError() {
-        articleView.hideProgressBar();
-        articleView.showToast("Не удалось загрузить статью");
+        view.hideProgressBar();
+        view.showToast("Не удалось загрузить статью");
     }
 }

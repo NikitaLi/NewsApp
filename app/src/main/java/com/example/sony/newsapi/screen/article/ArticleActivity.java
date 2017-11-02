@@ -15,15 +15,13 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.sony.newsapi.NewsStore;
 import com.example.sony.newsapi.R;
 
 public class ArticleActivity extends AppCompatActivity implements ArticleContract.View {
     private static final String KEY_INDEX = "news_index";
 
-    final ArticleContract.Presenter presenter = new ArticlePresenter(this);
-
-    WebView webView;
+    private ArticleContract.Presenter presenter;
+    private WebView webView;
     private ProgressBar progressBar;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -42,6 +40,7 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         int index = getIntent().getIntExtra(KEY_INDEX, -1);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(getWebViewClient());
+        presenter = new ArticlePresenter(this);
         presenter.loadUrl(index);
     }
 
@@ -81,9 +80,9 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
     }
 
     @Override
-    public void setTitleOfActionBar(int index) {
+    public void showTitleOfActionBar(String title) {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(NewsStore.getNewsArticles().get(index).getTitle());
+            getSupportActionBar().setTitle(title);
         }
     }
 

@@ -31,7 +31,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(final NewsViewHolder holder, int position) {
         Article newsArticle = newsArticles.get(position);
-        Glide.with(holder.ivCardImage.getContext()).load(newsArticle.getUrlToImage())
+        Glide.with(holder.ivCardImage.getContext())
+                .load(newsArticle.getUrlToImage())
                 .into(holder.ivCardImage);
         holder.tvCardTitle.setText(newsArticle.getTitle());
         holder.tvCardTime.setText(DateUtils.formatNewsPublishedDate(newsArticle.getPublishedAt()));

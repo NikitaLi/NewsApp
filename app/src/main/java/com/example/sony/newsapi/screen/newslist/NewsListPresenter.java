@@ -16,10 +16,10 @@ import retrofit2.Response;
 
 class NewsListPresenter {
 
-    private final NewsListView newsListView;
+    private final NewsListView view;
 
     NewsListPresenter(NewsListView newsListView) {
-        this.newsListView = newsListView;
+        this.view = newsListView;
     }
 
     void loadNewsList() {
@@ -34,13 +34,13 @@ class NewsListPresenter {
                 if (articlesResponse != null) {
                     List<Article> newsList = articlesResponse.getArticles();
                     NewsStore.setNewsArticles(newsList);
-                    newsListView.showNewsList(newsList);
+                    view.showNewsList(newsList);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<GetArticlesResponse> call, @NonNull Throwable t) {
-                newsListView.showErrorToast();
+                view.showErrorToast();
             }
         });
     }
