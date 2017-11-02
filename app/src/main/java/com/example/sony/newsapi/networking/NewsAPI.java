@@ -2,6 +2,8 @@ package com.example.sony.newsapi.networking;
 
 import com.example.sony.newsapi.model.GetArticlesResponse;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,11 +16,18 @@ public class NewsAPI {
 
     private static NewsService newsService = null;
 
+    private static OkHttpClient getClient() {
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
+    }
+
     public static NewsService getApi() {
         if (newsService == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(API_PATH)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(getClient())
                     .build();
             newsService = retrofit.create(NewsService.class);
         }

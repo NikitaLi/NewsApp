@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sony.newsapi.NewsDetailsActivity">
+    tools:context="com.example.sony.newsapi.screen.article.ArticleActivity">
 
     <WebView
-        android:id="@+id/activity_news_details_webview"
+        android:id="@+id/wb_article"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <ProgressBar
-        android:id="@+id/activity_news_details_progressbar"
+        android:id="@+id/pb_article"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
