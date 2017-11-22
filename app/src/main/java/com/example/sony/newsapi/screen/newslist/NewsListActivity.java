@@ -25,10 +25,13 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rvNews = findViewById(R.id.rv_news);
-        rvNews.setLayoutManager(new LinearLayoutManager(this));
-
         showTitle();
+
+        rvNews = findViewById(R.id.rv_news);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        rvNews.setLayoutManager(layoutManager);
 
         presenter = new NewsListPresenter(this);
         presenter.loadNewsList();
@@ -58,5 +61,6 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView,
         swipeRefreshLayout.setRefreshing(true);
         presenter.loadNewsList();
         swipeRefreshLayout.setRefreshing(false);
+        rvNews.smoothScrollToPosition(rvNews.getAdapter().getItemCount() - 1);
     }
 }
