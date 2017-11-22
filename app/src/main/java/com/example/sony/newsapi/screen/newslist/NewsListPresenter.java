@@ -3,7 +3,8 @@ package com.example.sony.newsapi.screen.newslist;
 import android.support.annotation.NonNull;
 
 import com.example.sony.newsapi.Config;
-import com.example.sony.newsapi.NewsStore;
+import com.example.sony.newsapi.Repository;
+import com.example.sony.newsapi.RepositoryImpl;
 import com.example.sony.newsapi.model.Article;
 import com.example.sony.newsapi.model.GetArticlesResponse;
 import com.example.sony.newsapi.networking.NewsAPI;
@@ -17,12 +18,16 @@ import retrofit2.Response;
 class NewsListPresenter {
 
     private final NewsListView view;
+    private Repository repository;
 
     NewsListPresenter(NewsListView newsListView) {
         this.view = newsListView;
+        this.repository = new RepositoryImpl();
     }
 
     void loadNewsList() {
+        List<Article> articles = repository.loadFromDB();
+        view.showNewsList(articles);
         Call<GetArticlesResponse> call = NewsAPI.getApi().getArticles(
                 Config.API_SOURCE,
                 Config.API_NEWS_SORT_BY
@@ -33,7 +38,7 @@ class NewsListPresenter {
                 GetArticlesResponse articlesResponse = response.body();
                 if (articlesResponse != null) {
                     List<Article> newsList = articlesResponse.getArticles();
-                    NewsStore.setNewsArticles(newsList);
+                    repository.saveToDB(newsList);
                     view.showNewsList(newsList);
                 }
             }

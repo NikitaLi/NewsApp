@@ -1,8 +1,9 @@
 package com.example.sony.newsapi.model
 
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmObject
 
-class Article {
+open class Article : RealmObject() {
     @SerializedName("author")
     var author: String? = null
     @SerializedName("title")
