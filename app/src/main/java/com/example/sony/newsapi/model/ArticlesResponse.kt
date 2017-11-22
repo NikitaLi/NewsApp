@@ -2,7 +2,7 @@ package com.example.sony.newsapi.model
 
 import com.google.gson.annotations.SerializedName
 
-class GetArticlesResponse {
+class ArticlesResponse {
     @SerializedName("status")
     var status: String? = null
     @SerializedName("source")

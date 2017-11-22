@@ -1,4 +1,4 @@
-package com.example.sony.newsapi;
+package com.example.sony.newsapi.repository;
 
 import android.support.annotation.NonNull;
 
@@ -15,7 +15,7 @@ public class RepositoryImpl implements Repository {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                realm.copyToRealm(articles);
+                realm.copyToRealmOrUpdate(articles);
             }
         });
         realm.close();

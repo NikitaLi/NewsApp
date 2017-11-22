@@ -1,5 +1,6 @@
 package com.example.sony.newsapi.screen.newslist;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +13,12 @@ import com.example.sony.newsapi.model.Article;
 
 import java.util.List;
 
-public class NewsListActivity extends AppCompatActivity implements NewsListView {
+public class NewsListActivity extends AppCompatActivity implements NewsListView,
+        SwipeRefreshLayout.OnRefreshListener {
 
     public RecyclerView rvNews;
+    public SwipeRefreshLayout swipeRefreshLayout;
+    public NewsListPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +30,11 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView 
 
         showTitle();
 
-        NewsListPresenter presenter = new NewsListPresenter(this);
+        presenter = new NewsListPresenter(this);
         presenter.loadNewsList();
+
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -43,6 +50,13 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView 
 
     @Override
     public void showErrorToast() {
-        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Нет сети", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        presenter.loadNewsList();
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

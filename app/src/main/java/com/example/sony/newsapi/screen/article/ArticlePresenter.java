@@ -1,6 +1,6 @@
 package com.example.sony.newsapi.screen.article;
 
-import com.example.sony.newsapi.RepositoryImpl;
+import com.example.sony.newsapi.repository.RepositoryImpl;
 import com.example.sony.newsapi.model.Article;
 
 class ArticlePresenter implements ArticleContract.Presenter {

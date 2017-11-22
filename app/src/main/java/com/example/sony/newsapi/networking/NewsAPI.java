@@ -1,6 +1,6 @@
 package com.example.sony.newsapi.networking;
 
-import com.example.sony.newsapi.model.GetArticlesResponse;
+import com.example.sony.newsapi.model.ArticlesResponse;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -36,6 +36,6 @@ public class NewsAPI {
 
     public interface NewsService {
         @GET("articles?apiKey=" + API_KEY)
-        Call<GetArticlesResponse> getArticles(@Query("source") String source, @Query("sortBy") String sortBy);
+        Call<ArticlesResponse> getArticles(@Query("source") String source, @Query("sortBy") String sortBy);
     }
 }
