@@ -13,12 +13,12 @@ import com.example.sony.newsapi.model.Article;
 
 import java.util.List;
 
-public class NewsListActivity extends AppCompatActivity implements NewsListView,
+public class NewsListActivity extends AppCompatActivity implements NewsListContract.View,
         SwipeRefreshLayout.OnRefreshListener {
 
     public RecyclerView rvNews;
     public SwipeRefreshLayout swipeRefreshLayout;
-    public NewsListPresenter presenter;
+    public NewsListContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +38,27 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView,
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
     }
 
     @Override
     public void showTitle() {
         setTitle(Config.SOURCE_NAME);
+    }
+
+    @Override
+    public void hideSwipeRefreshLayout() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -58,9 +74,7 @@ public class NewsListActivity extends AppCompatActivity implements NewsListView,
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
         presenter.loadNewsList();
-        swipeRefreshLayout.setRefreshing(false);
         rvNews.smoothScrollToPosition(rvNews.getAdapter().getItemCount() - 1);
     }
 }

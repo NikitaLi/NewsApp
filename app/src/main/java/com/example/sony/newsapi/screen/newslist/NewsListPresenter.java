@@ -15,17 +15,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-class NewsListPresenter {
+class NewsListPresenter implements NewsListContract.Presenter {
 
-    private final NewsListView view;
+    private final NewsListContract.View view;
     private Repository repository;
 
-    NewsListPresenter(NewsListView newsListView) {
+    NewsListPresenter(NewsListContract.View newsListView) {
         this.view = newsListView;
         this.repository = new RepositoryImpl();
     }
 
-    void loadNewsList() {
+    @Override
+    public void loadNewsList() {
         List<Article> articles = repository.loadFromDB();
         view.showNewsList(articles);
         Call<ArticlesResponse> call = NewsAPI.getApi().getArticles(
@@ -40,11 +41,13 @@ class NewsListPresenter {
                     List<Article> newsList = articlesResponse.getArticles();
                     repository.saveToDB(newsList);
                     view.showNewsList(repository.loadFromDB());
+                    view.hideSwipeRefreshLayout();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ArticlesResponse> call, @NonNull Throwable t) {
+                view.hideSwipeRefreshLayout();
                 view.showErrorToast();
             }
         });
