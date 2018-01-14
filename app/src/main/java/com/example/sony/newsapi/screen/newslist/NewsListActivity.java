@@ -48,17 +48,7 @@ public class NewsListActivity extends AppCompatActivity implements NewsListContr
 
     @Override
     public void hideSwipeRefreshLayout() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-        }).start();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

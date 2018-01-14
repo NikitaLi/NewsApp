@@ -1,7 +1,5 @@
 package com.example.sony.newsapi.screen.newslist;
 
-import android.support.annotation.NonNull;
-
 import com.example.sony.newsapi.Config;
 import com.example.sony.newsapi.repository.Repository;
 import com.example.sony.newsapi.repository.RepositoryImpl;
@@ -11,8 +9,10 @@ import com.example.sony.newsapi.networking.NewsAPI;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 class NewsListPresenter implements NewsListContract.Presenter {
@@ -29,27 +29,37 @@ class NewsListPresenter implements NewsListContract.Presenter {
     public void loadNewsList() {
         List<Article> articles = repository.loadFromDB();
         view.showNewsList(articles);
-        Call<ArticlesResponse> call = NewsAPI.getApi().getArticles(
-                Config.API_SOURCE,
-                Config.API_NEWS_SORT_BY
-        );
-        call.enqueue(new Callback<ArticlesResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<ArticlesResponse> call, @NonNull Response<ArticlesResponse> response) {
-                ArticlesResponse articlesResponse = response.body();
-                if (articlesResponse != null) {
-                    List<Article> newsList = articlesResponse.getArticles();
-                    repository.saveToDB(newsList);
-                    view.showNewsList(repository.loadFromDB());
-                    view.hideSwipeRefreshLayout();
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<ArticlesResponse> call, @NonNull Throwable t) {
-                view.hideSwipeRefreshLayout();
-                view.showErrorToast();
-            }
-        });
+        NewsAPI.getApi()
+                .getArticles(Config.API_SOURCE, Config.API_NEWS_SORT_BY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<ArticlesResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Response<ArticlesResponse> articlesResponse) {
+                        if (articlesResponse != null) {
+                            List<Article> newsList = articlesResponse.body().getArticles();
+                            repository.saveToDB(newsList);
+                            view.hideSwipeRefreshLayout();
+                            view.showNewsList(repository.loadFromDB());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideSwipeRefreshLayout();
+                        view.showErrorToast();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
