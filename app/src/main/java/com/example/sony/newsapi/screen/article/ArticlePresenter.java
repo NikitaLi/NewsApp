@@ -1,16 +1,16 @@
 package com.example.sony.newsapi.screen.article;
 
-import com.example.sony.newsapi.repository.RepositoryImpl;
 import com.example.sony.newsapi.model.Article;
+import com.example.sony.newsapi.repository.Repository;
 
 class ArticlePresenter implements ArticleContract.Presenter {
 
     private final ArticleContract.View view;
-    private RepositoryImpl repository;
+    private Repository repository;
 
-    ArticlePresenter(ArticleContract.View articleView) {
+    ArticlePresenter(ArticleContract.View articleView, Repository repository) {
         this.view = articleView;
-        this.repository = new RepositoryImpl();
+        this.repository = repository;
     }
 
     @Override

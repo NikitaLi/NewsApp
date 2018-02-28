@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.sony.newsapi.R;
+import com.example.sony.newsapi.repository.RepositoryImpl;
 
 public class ArticleActivity extends AppCompatActivity implements ArticleContract.View {
     private static final String KEY_INDEX = "news_index";
@@ -40,7 +41,7 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         int index = getIntent().getIntExtra(KEY_INDEX, -1);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(getWebViewClient());
-        presenter = new ArticlePresenter(this);
+        presenter = new ArticlePresenter(this, new RepositoryImpl());
         presenter.loadUrl(index);
     }
 

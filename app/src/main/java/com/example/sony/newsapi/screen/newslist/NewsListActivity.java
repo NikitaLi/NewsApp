@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.sony.newsapi.Config;
 import com.example.sony.newsapi.R;
 import com.example.sony.newsapi.model.Article;
+import com.example.sony.newsapi.repository.RepositoryImpl;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class NewsListActivity extends AppCompatActivity implements NewsListContr
         layoutManager.setStackFromEnd(true);
         rvNews.setLayoutManager(layoutManager);
 
-        presenter = new NewsListPresenter(this);
+        presenter = new NewsListPresenter(this, new RepositoryImpl());
         presenter.loadNewsList();
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh);
