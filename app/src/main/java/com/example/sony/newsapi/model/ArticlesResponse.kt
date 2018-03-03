@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 class ArticlesResponse {
     @SerializedName("status") var status: String = ""
-    @SerializedName("source") var source: String = ""
-    @SerializedName("sortBy") var sortBy: String = ""
+    @SerializedName("totalResults") var totalresults: Int = 0
     @SerializedName("articles") var articles: List<Article> = emptyList()
 }

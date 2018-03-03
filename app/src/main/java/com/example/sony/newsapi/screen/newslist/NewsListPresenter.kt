@@ -16,7 +16,7 @@ internal class NewsListPresenter(
         view.showNewsList(articles)
 
         NewsAPI.api
-            .getArticles(Config.API_SOURCE, Config.API_NEWS_SORT_BY)
+            .getArticles(Config.API_SOURCE)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { it.body() }

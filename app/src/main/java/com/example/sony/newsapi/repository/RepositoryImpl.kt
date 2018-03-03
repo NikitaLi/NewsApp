@@ -1,7 +1,6 @@
 package com.example.sony.newsapi.repository
 
 import com.example.sony.newsapi.model.Article
-
 import io.realm.Realm
 
 class RepositoryImpl : Repository {

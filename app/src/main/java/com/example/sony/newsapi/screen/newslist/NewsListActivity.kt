@@ -1,12 +1,11 @@
 package com.example.sony.newsapi.screen.newslist
 
+import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
-
 import com.example.sony.newsapi.Config
 import com.example.sony.newsapi.R
 import com.example.sony.newsapi.model.Article
@@ -22,7 +21,6 @@ class NewsListActivity : AppCompatActivity(), NewsListContract.View,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         showTitle()
 
         rvNews = findViewById(R.id.rv_news)

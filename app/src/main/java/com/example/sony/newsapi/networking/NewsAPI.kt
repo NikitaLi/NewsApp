@@ -14,7 +14,7 @@ import retrofit2.http.Query
 
 object NewsAPI {
     private const val API_KEY = "0545f526db4148e49a6ca0e4f5973cf5"
-    private const val API_PATH = "https://newsapi.org/v1/"
+    private const val API_PATH = "https://newsapi.org/v2/"
 
     private val client: OkHttpClient
         get() {
@@ -35,7 +35,7 @@ object NewsAPI {
         }
 
     interface NewsService {
-        @GET("articles?apiKey=" + API_KEY)
-        fun getArticles(@Query("source") source: String, @Query("sortBy") sortBy: String): Observable<Response<ArticlesResponse>>
+        @GET("top-headlines?apiKey=$API_KEY")
+        fun getArticles(@Query("sources") source: String): Observable<Response<ArticlesResponse>>
     }
 }
