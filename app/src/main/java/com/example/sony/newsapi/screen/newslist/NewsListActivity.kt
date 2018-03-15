@@ -6,22 +6,29 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
+import com.example.sony.newsapi.App
 import com.example.sony.newsapi.Config
 import com.example.sony.newsapi.R
+import com.example.sony.newsapi.di.NewsListActivityModule
 import com.example.sony.newsapi.model.Article
-import com.example.sony.newsapi.repository.RepositoryImpl
+import javax.inject.Inject
 
 class NewsListActivity : AppCompatActivity(), NewsListContract.View,
     SwipeRefreshLayout.OnRefreshListener {
 
+    @Inject
+    lateinit var presenter: NewsListContract.Presenter
+
     private lateinit var rvNews: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var presenter: NewsListContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_news_list)
         showTitle()
+
+        (application as App).appComponent.createNewsListComponent(NewsListActivityModule(this))
+            .inject(this)
 
         rvNews = findViewById(R.id.rv_news)
         val layoutManager = LinearLayoutManager(this)
@@ -29,12 +36,11 @@ class NewsListActivity : AppCompatActivity(), NewsListContract.View,
         layoutManager.stackFromEnd = true
         rvNews.layoutManager = layoutManager
 
-        presenter = NewsListPresenter(this, RepositoryImpl())
         presenter.loadNewsList()
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh)
         swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary)
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
     }
 
     override fun showTitle() {

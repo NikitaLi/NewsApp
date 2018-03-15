@@ -6,7 +6,7 @@ import com.example.sony.newsapi.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-internal class NewsListPresenter(
+class NewsListPresenter(
     private val view: NewsListContract.View,
     private val repository: Repository
 ) : NewsListContract.Presenter {

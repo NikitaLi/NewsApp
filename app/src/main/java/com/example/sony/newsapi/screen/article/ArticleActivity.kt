@@ -14,13 +14,16 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import android.widget.Toast
-
+import com.example.sony.newsapi.App
 import com.example.sony.newsapi.R
-import com.example.sony.newsapi.repository.RepositoryImpl
+import com.example.sony.newsapi.di.ArticleActivityModule
+import javax.inject.Inject
 
 class ArticleActivity : AppCompatActivity(), ArticleContract.View {
 
-    private lateinit var presenter: ArticleContract.Presenter
+    @Inject
+    internal lateinit var presenter: ArticleContract.Presenter
+
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
 
@@ -46,7 +49,10 @@ class ArticleActivity : AppCompatActivity(), ArticleContract.View {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_news_details)
+        setContentView(R.layout.activity_article)
+
+        (application as App).appComponent.createArticleComponent(ArticleActivityModule(this))
+            .inject(this)
 
         if (supportActionBar != null) {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -58,7 +64,6 @@ class ArticleActivity : AppCompatActivity(), ArticleContract.View {
         val index = intent.getIntExtra(KEY_INDEX, -1)
         webView.settings.javaScriptEnabled = true
         webView.webViewClient = webViewClient
-        presenter = ArticlePresenter(this, RepositoryImpl())
         presenter.loadUrl(index)
     }
 
@@ -85,7 +90,7 @@ class ArticleActivity : AppCompatActivity(), ArticleContract.View {
     }
 
     override fun hideProgressBar() {
-        progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
     }
 
     override fun showToast(message: String) {
