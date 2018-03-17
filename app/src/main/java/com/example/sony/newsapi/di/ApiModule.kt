@@ -11,7 +11,5 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideApiService() : NewsService {
-        return NewsAPI.api
-    }
+    fun provideApiService() : NewsService = NewsAPI.api
 }
