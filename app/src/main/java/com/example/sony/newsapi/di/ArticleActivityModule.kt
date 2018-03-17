@@ -11,12 +11,9 @@ import dagger.Provides
 class ArticleActivityModule(private val view: ArticleContract.View) {
 
     @Provides
-    fun providePresenter(repository: Repository): ArticleContract.Presenter {
-        return ArticlePresenter(view, repository)
-    }
+    fun providePresenter(repository: Repository): ArticleContract.Presenter =
+        ArticlePresenter(view, repository)
 
     @Provides
-    fun provideRepository(): Repository {
-        return RepositoryImpl()
-    }
+    fun provideRepository(): Repository = RepositoryImpl()
 }

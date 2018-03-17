@@ -11,12 +11,9 @@ import dagger.Provides
 class NewsListActivityModule(private val view: NewsListContract.View) {
 
     @Provides
-    fun providePresenter(repository: Repository): NewsListContract.Presenter {
-        return NewsListPresenter(view, repository)
-    }
+    fun providePresenter(repository: Repository): NewsListContract.Presenter =
+        NewsListPresenter(view, repository)
 
     @Provides
-    fun provideRepository(): Repository {
-        return RepositoryImpl()
-    }
+    fun provideRepository(): Repository = RepositoryImpl()
 }
